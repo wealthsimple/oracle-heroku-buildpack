@@ -8,6 +8,7 @@ if !EXISTING_LD_LIBRARY_PATH.nil? && !EXISTING_LD_LIBRARY_PATH.empty?
 end
 
 puts <<-CONF
+---
 config_vars:
   LD_LIBRARY_PATH: #{new_ld_library_path}
 CONF
