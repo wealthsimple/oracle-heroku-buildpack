@@ -9,6 +9,10 @@ def indent msg
   puts "       #{msg}"
 end
 
+BUILD_DIR=ARGV[0]
+CACHE_DIR=ARGV[1]
+ENV_DIR=ARGV[2]
+
 puts "-----> Found an .oracle.ini"
 
 ORACLE_INSTANT_CLIENT_DIR="#{ARGV[0]}/vendor/oracle_instantclient"
