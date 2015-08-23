@@ -52,7 +52,9 @@ indent "Create profile.d script"
 # puts "export LD_LIBRARY_PATH=#{ORACLE_INSTANT_CLIENT_DIR}:LD_LIBRARY_PATH"
 # `export LD_LIBRARY_PATH=#{ORACLE_INSTANT_CLIENT_DIR}:LD_LIBRARY_PATH`
 indent "Save LD_LIBRARY_PATH"
-`mkdir -p #{ENV_DIR}/LD_LIBRARY_PATH`
+`ls -l #{ENV_DIR}`
+`cat #{ENV_DIR}/LD_LIBRARY_PATH`
+# `mkdir -p #{ENV_DIR}/LD_LIBRARY_PATH`
 open(File.join(ENV_DIR,'LD_LIBRARY_PATH','value')) { |f| f.puts "#{ORACLE_INSTANT_CLIENT_DIR}:LD_LIBRARY_PATH" }
 
 indent "Done!"
