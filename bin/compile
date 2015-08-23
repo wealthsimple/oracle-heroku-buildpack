@@ -15,7 +15,7 @@ ENV_DIR=ARGV[2]
 
 puts "-----> Found an .oracle.yml"
 
-ORACLE_CONFIG = YAML.load_file('.oracle.yml')
+ORACLE_CONFIG = YAML.load_file("#{BUILD_DIR}/.oracle.yml")
 ORACLE_INSTANT_CLIENT_DIR="vendor/oracle_instantclient"
 ORACLE_INSTANT_CLIENT_URL="https://www.dropbox.com/s/eadlfff7w9bjo44/instantclient-full-linux.x64-12.1.0.tar.gz"
 ORACLE_INSTANT_CLIENT_FILENAME=ORACLE_INSTANT_CLIENT_URL.split(/\//).last
