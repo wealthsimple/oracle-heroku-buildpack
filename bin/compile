@@ -2,7 +2,6 @@
 
 require 'tempfile'
 require 'fileutils'
-require 'file'
 
 $stdout.sync = true
 
