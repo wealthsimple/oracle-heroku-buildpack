@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+require 'tempfile'
+require 'fileutils'
+
+$stdout.sync = true
+
+def indent msg
+  puts "       #{msg}"
+end
+
+puts "-----> Found a .oracle.ini"
+
+RUBY=`which ruby`
+
+puts "ruby is #{RUBY}"
+
+#wget -nv --directory-prefix=$ORACLE_DIR https://www.dropbox.com/s/bmhz6sdjj3mj1df/instantclient-basic-linux.x64-12.#1.0.2.0.zip
+#wget -nv --directory-prefix=$ORACLE_DIR https://www.dropbox.com/s/s92xiejr1jsdgkh/instantclient-sdk-linux.x64-12.1.#0.2.0.zip
+#wget -nv --directory-prefix=$ORACLE_DIR https://www.dropbox.com/s/wdigmsq2pjud9mc/instantclient-sqlplus-linux.x64-12.1.0.2.0.zip
