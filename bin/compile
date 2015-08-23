@@ -19,6 +19,7 @@ indent "ENV_DIR=#{ENV_DIR.inspect}"
 
 Dir.foreach(ENV_DIR) { |x| indent x }
 
+
 puts "-----> Found a .oracle.ini"
 
 ORACLE_INSTANT_CLIENT_DIR="#{ARGV[0]}/vendor/oracle_instantclient"
