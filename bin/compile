@@ -2,7 +2,7 @@
 
 require 'tempfile'
 require 'fileutils'
-# require 'yaml'
+require 'yaml'
 
 $stdout.sync = true
 
