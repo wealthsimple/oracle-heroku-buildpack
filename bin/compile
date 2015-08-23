@@ -37,7 +37,7 @@ indent "Create profile.d script"
 `mkdir -p #{BUILD_DIR}/.profile.d`
 
 open("#{BUILD_DIR}/.profile.d/oracle.sh", "w") do |f|
-   f.puts "export LD_LIBRARY_PATH=#{ORACLE_INSTANT_CLIENT_DIR}:LD_LIBRARY_PATH"
+   f.puts "export LD_LIBRARY_PATH=/app/vendor/oracle_instantclient:LD_LIBRARY_PATH"
 end
 
 indent "Save LD_LIBRARY_PATH to ENV_DIR"
