@@ -42,6 +42,7 @@ indent "Create profile.d script"
 # open("#{BUILD_DIR}/.profile.d/oracle.sh", "w") do |f|
 #   f.puts "export LD_LIBRARY_PATH=#{ORACLE_INSTANT_CLIENT_DIR}:LD_LIBRARY_PATH"
 # end
-# puts "export LD_LIBRARY_PATH=#{ORACLE_INSTANT_CLIENT_DIR}:LD_LIBRARY_PATH"
+puts "export LD_LIBRARY_PATH=#{ORACLE_INSTANT_CLIENT_DIR}:LD_LIBRARY_PATH"
+`export LD_LIBRARY_PATH=#{ORACLE_INSTANT_CLIENT_DIR}:LD_LIBRARY_PATH`
 
 indent "Done!"
