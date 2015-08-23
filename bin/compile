@@ -2,6 +2,7 @@
 
 require 'tempfile'
 require 'fileutils'
+require 'file'
 
 $stdout.sync = true
 
@@ -35,4 +36,13 @@ result = `ls -l #{ORACLE_INSTANT_CLIENT_DIR}`
 indent result
 
 indent "Successfully extracted #{ORACLE_INSTANT_CLIENT_FILENAME}"
+
+indent "Create profile.d script"
+`mkdir -p #{BUILD_DIR}/.profile.d`
+
+open("#{BUILD_DIR}/.profile.d/oracle.sh", "w") do |f|
+  f.puts "export LD_LIBRARY_PATH=#{ORACLE_INSTANT_CLIENT_DIR}:LD_LIBRARY_PATH"
+end
+`export LD_LIBRARY_PATH=#{ORACLE_INSTANT_CLIENT_DIR}:LD_LIBRARY_PATH`
+
 indent "Done!"
