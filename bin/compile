@@ -2,51 +2,72 @@
 
 require 'tempfile'
 require 'fileutils'
+# require 'yaml'
 
 $stdout.sync = true
 
-def indent msg
+def indent(msg)
   puts "       #{msg}"
 end
 
 BUILD_DIR=ARGV[0]
-CACHE_DIR=ARGV[1]
 ENV_DIR=ARGV[2]
 
-puts "-----> Found an .oracle.ini"
+puts "-----> Found an .oracle.yml"
 
-ORACLE_INSTANT_CLIENT_DIR="#{ARGV[0]}/vendor/oracle_instantclient"
+# ORACLE_CONFIG = YAML.load_file('.oracle.yml')
+# ORACLE_INSTANT_CLIENT_DIR="vendor/oracle_instantclient"
+# ORACLE_INSTANT_CLIENT_URL="https://www.dropbox.com/s/eadlfff7w9bjo44/instantclient-full-linux.x64-12.1.0.tar.gz"
+# ORACLE_INSTANT_CLIENT_FILENAME=ORACLE_INSTANT_CLIENT_URL.split(/\//).last
 
-ORACLE_INSTANT_CLIENT_URL="https://www.dropbox.com/s/eadlfff7w9bjo44/instantclient-full-linux.x64-12.1.0.tar.gz"
-ORACLE_INSTANT_CLIENT_FILENAME=ORACLE_INSTANT_CLIENT_URL.split(/\//).last
+# indent "Making directory #{BUILD_DIR}/#{ORACLE_INSTANT_CLIENT_DIR}"
+# `mkdir -p #{BUILD_DIR}/#{ORACLE_INSTANT_CLIENT_DIR}`
 
-indent "Making directory #{ORACLE_INSTANT_CLIENT_DIR}"
-`mkdir -p #{ORACLE_INSTANT_CLIENT_DIR}`
+# indent "Downloading and extracting #{ORACLE_INSTANT_CLIENT_FILENAME}"
+# result = `curl #{ORACLE_INSTANT_CLIENT_URL} -L -s -o - | tar -xvz -C #{BUILD_DIR}/#{ORACLE_INSTANT_CLIENT_DIR} -f - `
 
-indent "Downloading and extracting #{ORACLE_INSTANT_CLIENT_FILENAME}"
-result = `curl #{ORACLE_INSTANT_CLIENT_URL} -L -s -o - | tar -xvz -C #{ORACLE_INSTANT_CLIENT_DIR} -f - `
+# unless $?.success?
+#   indent "Failure while downloading Oracle instant client archive: #{$?}"
+#   exit 1
+# end
 
-unless $?.success?
-  indent "Failure while downloading Oracle instant client archive: #{$?}"
-  exit 1
-end
+# indent "Successfully extracted #{ORACLE_INSTANT_CLIENT_FILENAME}"
 
-indent "Successfully extracted #{ORACLE_INSTANT_CLIENT_FILENAME}"
+# ORACLE_NETWORK_ADMIN_DIR = "#{BUILD_DIR}/#{ORACLE_INSTANT_CLIENT_DIR}/network/admin"
+# `mkdir -p #{ORACLE_NETWORK_ADMIN_DIR}`
 
-indent "Create profile.d script"
-`mkdir -p #{BUILD_DIR}/.profile.d`
+# TNSNAMES_FILENAME = ORACLE_CONFIG['tnsnames.ora']
+# if File.exists?(TNSNAMES_FILENAME)
+#   indent "Symlinking #{TNSNAMES_FILENAME} #{ORACLE_INSTANT_CLIENT_DIR}/network/admin/tnsnames.ora"
+#   `ln -sf #{TNSNAMES_FILENAME} #{ORACLE_NETWORK_ADMIN_DIR}/tnsnames.ora`
+# end
 
-open("#{BUILD_DIR}/.profile.d/oracle.sh", "w") do |f|
-   f.puts "export LD_LIBRARY_PATH=/app/vendor/oracle_instantclient:LD_LIBRARY_PATH"
-end
+# SQLNET_FILENAME = ORACLE_CONFIG['sqlnet.ora']
+# if File.exists?(SQLNET_FILENAME)
+#   indent "Symlinking #{SQLNET_FILENAME} #{ORACLE_INSTANT_CLIENT_DIR}/network/admin/sqlnet.ora"
+#   `ln -sf #{SQLNET_FILENAME} #{ORACLE_NETWORK_ADMIN_DIR}/sqlnet.ora`
+# end
 
-indent "Save LD_LIBRARY_PATH to ENV_DIR"
+# indent "Create profile.d script"
+# `mkdir -p #{BUILD_DIR}/.profile.d`
 
-existing_ld_library_path = `cat #{ENV_DIR}/LD_LIBRARY_PATH`
-open(File.join(ENV_DIR,'LD_LIBRARY_PATH'), 'w') do |f|
-  value = ORACLE_INSTANT_CLIENT_DIR
-  value += ":#{existing_ld_library_path}"  if existing_ld_library_path
-  f.puts value
-end
+# open("#{BUILD_DIR}/.profile.d/oracle.sh", "w") do |f|
+#   ORACLE_HOME = "/app/#{ORACLE_INSTANT_CLIENT_DIR}"
+#   f.puts "export ORACLE_HOME=#{ORACLE_HOME}"
+#   f.puts "export LD_LIBRARY_PATH=#{ORACLE_HOME}:$LD_LIBRARY_PATH"
+#   f.puts "export PATH=#{ORACLE_HOME}:$PATH"
+#   f.puts "export TNS_ADMIN=#{ORACLE_HOME}/network/admin"
+# end
+
+# indent "Save build LD_LIBRARY_PATH to ENV_DIR"
+
+# LD_LIBRARY_PATH_FILE = File.join(ENV_DIR, 'LD_LIBRARY_PATH')
+# existing_ld_library_path = `cat #{LD_LIBRARY_PATH_FILE}`  if File.exists?(LD_LIBRARY_PATH_FILE)
+
+# open(File.join(ENV_DIR,'LD_LIBRARY_PATH'), 'w') do |f|
+#   value = "#{BUILD_DIR}/#{ORACLE_INSTANT_CLIENT_DIR}"
+#   value += ":#{existing_ld_library_path}"  if existing_ld_library_path
+#   f.puts value
+# end
 
 indent "Done!"
