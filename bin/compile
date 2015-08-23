@@ -37,15 +37,15 @@ ORACLE_NETWORK_ADMIN_DIR = "#{BUILD_DIR}/#{ORACLE_INSTANT_CLIENT_DIR}/network/ad
 `mkdir -p #{ORACLE_NETWORK_ADMIN_DIR}`
 
 TNSNAMES_FILENAME = ORACLE_CONFIG['tnsnames.ora']
-if File.exists?(TNSNAMES_FILENAME)
-  indent "Symlinking #{TNSNAMES_FILENAME} #{ORACLE_INSTANT_CLIENT_DIR}/network/admin/tnsnames.ora"
-  `ln -sf #{TNSNAMES_FILENAME} #{ORACLE_NETWORK_ADMIN_DIR}/tnsnames.ora`
+if File.exists?(File.join(BUILD_DIR,TNSNAMES_FILENAME))
+  indent "Symlinking #{TNSNAMES_FILENAME} to #{ORACLE_INSTANT_CLIENT_DIR}/network/admin/tnsnames.ora"
+  `ln -sf #{File.join(BUILD_DIR,TNSNAMES_FILENAME)} #{ORACLE_NETWORK_ADMIN_DIR}/tnsnames.ora`
 end
 
 SQLNET_FILENAME = ORACLE_CONFIG['sqlnet.ora']
-if File.exists?(SQLNET_FILENAME)
-  indent "Symlinking #{SQLNET_FILENAME} #{ORACLE_INSTANT_CLIENT_DIR}/network/admin/sqlnet.ora"
-  `ln -sf #{SQLNET_FILENAME} #{ORACLE_NETWORK_ADMIN_DIR}/sqlnet.ora`
+if File.exists?(File.join(BUILD_DIR,SQLNET_FILENAME))
+  indent "Symlinking #{SQLNET_FILENAME} to #{ORACLE_INSTANT_CLIENT_DIR}/network/admin/sqlnet.ora"
+  `ln -sf #{File.join(BUILD_DIR,SQLNET_FILENAME)} #{ORACLE_NETWORK_ADMIN_DIR}/sqlnet.ora`
 end
 
 indent "Create profile.d script"
