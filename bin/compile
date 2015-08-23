@@ -31,7 +31,8 @@ unless $?.success?
   exit 1
 end
 
-`ls -l #{ORACLE_INSTANT_CLIENT_DIR}`
+result = `ls -l #{ORACLE_INSTANT_CLIENT_DIR}`
+indent result
 
 indent "Successfully extracted #{ORACLE_INSTANT_CLIENT_FILENAME}"
 indent "Done!"
