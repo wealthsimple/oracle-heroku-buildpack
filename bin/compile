@@ -17,8 +17,8 @@ indent "BUILD_DIR=#{BUILD_DIR}"
 indent "CACHE_DIR=#{CACHE_DIR}"
 indent "ENV_DIR=#{ENV_DIR.inspect}"
 
+indent "Contents of ENV_DIR are:"
 Dir.foreach(ENV_DIR) { |x| indent x }
-
 
 puts "-----> Found a .oracle.ini"
 
