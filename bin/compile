@@ -55,8 +55,9 @@ indent "Save LD_LIBRARY_PATH"
 env_dir_contents = `ls -l #{ENV_DIR}`
 puts env_dir_contents
 puts `cat #{ENV_DIR}/LD_LIBRARY_PATH`
+puts `file #{ENV_DIR}/LD_LIBRARY_PATH`
 
 # `mkdir -p #{ENV_DIR}/LD_LIBRARY_PATH`
-open(File.join(ENV_DIR,'LD_LIBRARY_PATH','value')) { |f| f.puts "#{ORACLE_INSTANT_CLIENT_DIR}:LD_LIBRARY_PATH" }
+open(File.join(ENV_DIR,'LD_LIBRARY_PATH'), 'w') { |f| f.puts "#{ORACLE_INSTANT_CLIENT_DIR}:LD_LIBRARY_PATH" }
 
 indent "Done!"
