@@ -11,25 +11,21 @@ end
 
 puts "-----> Found a .oracle.ini"
 
-RUBY=`which ruby`
-
-puts "ruby is #{RUBY}"
-puts "ARGV[0] = #{ARGV[0]}"
-
-
 ORACLE_INSTANT_CLIENT_DIR="#{ARGV[0]}/vendor/oracle_instantclient"
-ORACLE_INSTANT_CLIENT_TGZ="https://www.dropbox.com/s/aovobyzkqfamdxz/instantclient-full-linux.x64-12.1.0.2.0.tar.gz"
 
-indent "Making directoires..."
+ORACLE_INSTANT_CLIENT_FILENAME="instantclient-full-linux.x64-12.1.0.2.0.tar.gz"
+ORACLE_INSTANT_CLIENT_URL="https://www.dropbox.com/s/aovobyzkqfamdxz/#{ORACLE_INSTANT_CLIENT_FILENAME}"
+
+indent "Making directory #{ORACLE_INSTANT_CLIENT_DIR}"
 `mkdir -p #{ORACLE_INSTANT_CLIENT_DIR}`
 
-indent "Downloading and extracting instantclient"
-result = `curl #{ORACLE_INSTANT_CLIENT_TGZ} -L -o - | tar -xvz -C #{ORACLE_INSTANT_CLIENT_DIR} -f - `
+indent "Downloading and extracting #{ORACLE_INSTANT_CLIENT_FILENAME}"
+result = `curl #{ORACLE_INSTANT_CLIENT_URL} -L -o - | tar -xvz -C #{ORACLE_INSTANT_CLIENT_DIR} -f - `
 
 unless $?.success?
   indent "Failure while downloading Oracle instant client archive: #{$?}"
   exit 1
 end
 
-indent "Successfully extracted #{ORACLE_INSTANT_CLIENT_TGZ} to #{ORACLE_INSTANT_CLIENT_DIR}"
+indent "Successfully extracted #{ORACLE_INSTANT_CLIENT_FILENAME}"
 indent "Done!"
