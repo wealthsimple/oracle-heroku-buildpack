@@ -13,14 +13,14 @@ puts "-----> Found a .oracle.ini"
 
 ORACLE_INSTANT_CLIENT_DIR="#{ARGV[0]}/vendor/oracle_instantclient"
 
-ORACLE_INSTANT_CLIENT_FILENAME="instantclient-full-linux.x64-12.1.0.2.0.tar.gz"
-ORACLE_INSTANT_CLIENT_URL="https://www.dropbox.com/s/aovobyzkqfamdxz/#{ORACLE_INSTANT_CLIENT_FILENAME}"
+ORACLE_INSTANT_CLIENT_URL="https://www.dropbox.com/s/eadlfff7w9bjo44/instantclient-full-linux.x64-12.1.0.tar.gz"
+ORACLE_INSTANT_CLIENT_FILENAME=ORACLE_INSTANT_CLIENT_URL.split(/\//).last
 
 indent "Making directory #{ORACLE_INSTANT_CLIENT_DIR}"
 `mkdir -p #{ORACLE_INSTANT_CLIENT_DIR}`
 
 indent "Downloading and extracting #{ORACLE_INSTANT_CLIENT_FILENAME}"
-result = `curl #{ORACLE_INSTANT_CLIENT_URL} -L -o - | tar -xvz -C #{ORACLE_INSTANT_CLIENT_DIR} -f - `
+result = `curl #{ORACLE_INSTANT_CLIENT_URL} -L -o -s - | tar -xvz -C #{ORACLE_INSTANT_CLIENT_DIR} -f - `
 
 unless $?.success?
   indent "Failure while downloading Oracle instant client archive: #{$?}"
