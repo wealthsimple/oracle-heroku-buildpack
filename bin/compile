@@ -38,14 +38,14 @@ ORACLE_NETWORK_ADMIN_DIR = "#{BUILD_DIR}/#{ORACLE_INSTANT_CLIENT_DIR}/network/ad
 
 TNSNAMES_FILENAME = ORACLE_CONFIG['tnsnames.ora']
 if File.exists?(File.join(BUILD_DIR,TNSNAMES_FILENAME))
-  indent "Copying #{TNSNAMES_FILENAME} to #{ORACLE_INSTANT_CLIENT_DIR}/network/admin/tnsnames.ora"
-  `cp #{File.join(BUILD_DIR,TNSNAMES_FILENAME)} #{ORACLE_NETWORK_ADMIN_DIR}/tnsnames.ora`
+  indent "Symlinking #{TNSNAMES_FILENAME} to #{ORACLE_INSTANT_CLIENT_DIR}/network/admin/tnsnames.ora"
+  `ln -sf #{File.join('/app',TNSNAMES_FILENAME)} #{ORACLE_NETWORK_ADMIN_DIR}/tnsnames.ora`
 end
 
 SQLNET_FILENAME = ORACLE_CONFIG['sqlnet.ora']
 if File.exists?(File.join(BUILD_DIR,SQLNET_FILENAME))
-  indent "Copying #{SQLNET_FILENAME} to #{ORACLE_INSTANT_CLIENT_DIR}/network/admin/sqlnet.ora"
-  `cp #{File.join(BUILD_DIR,SQLNET_FILENAME)} #{ORACLE_NETWORK_ADMIN_DIR}/sqlnet.ora`
+  indent "Symlinking #{SQLNET_FILENAME} to #{ORACLE_INSTANT_CLIENT_DIR}/network/admin/sqlnet.ora"
+  `ln -sf #{File.join('/app',SQLNET_FILENAME)} #{ORACLE_NETWORK_ADMIN_DIR}/sqlnet.ora`
 end
 
 indent "Create profile.d script"
