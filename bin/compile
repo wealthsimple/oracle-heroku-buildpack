@@ -9,18 +9,7 @@ def indent msg
   puts "       #{msg}"
 end
 
-BUILD_DIR=ARGV[0]
-CACHE_DIR=ARGV[1]
-ENV_DIR=ARGV[2]
-
-indent "BUILD_DIR=#{BUILD_DIR}"
-indent "CACHE_DIR=#{CACHE_DIR}"
-indent "ENV_DIR=#{ENV_DIR.inspect}"
-
-indent "Contents of ENV_DIR are:"
-Dir.foreach(ENV_DIR) { |x| indent x }
-
-puts "-----> Found a .oracle.ini"
+puts "-----> Found an .oracle.ini"
 
 ORACLE_INSTANT_CLIENT_DIR="#{ARGV[0]}/vendor/oracle_instantclient"
 
@@ -38,26 +27,22 @@ unless $?.success?
   exit 1
 end
 
-result = `ls -l #{ORACLE_INSTANT_CLIENT_DIR}`
-indent result
-
 indent "Successfully extracted #{ORACLE_INSTANT_CLIENT_FILENAME}"
 
 indent "Create profile.d script"
 `mkdir -p #{BUILD_DIR}/.profile.d`
 
-# open("#{BUILD_DIR}/.profile.d/oracle.sh", "w") do |f|
-#   f.puts "export LD_LIBRARY_PATH=#{ORACLE_INSTANT_CLIENT_DIR}:LD_LIBRARY_PATH"
-# end
-# puts "export LD_LIBRARY_PATH=#{ORACLE_INSTANT_CLIENT_DIR}:LD_LIBRARY_PATH"
-# `export LD_LIBRARY_PATH=#{ORACLE_INSTANT_CLIENT_DIR}:LD_LIBRARY_PATH`
-indent "Save LD_LIBRARY_PATH"
-env_dir_contents = `ls -l #{ENV_DIR}`
-puts env_dir_contents
-puts `cat #{ENV_DIR}/LD_LIBRARY_PATH`
-puts `file #{ENV_DIR}/LD_LIBRARY_PATH`
+open("#{BUILD_DIR}/.profile.d/oracle.sh", "w") do |f|
+   f.puts "export LD_LIBRARY_PATH=#{ORACLE_INSTANT_CLIENT_DIR}:LD_LIBRARY_PATH"
+end
 
-# `mkdir -p #{ENV_DIR}/LD_LIBRARY_PATH`
-open(File.join(ENV_DIR,'LD_LIBRARY_PATH'), 'w') { |f| f.puts "#{ORACLE_INSTANT_CLIENT_DIR}:LD_LIBRARY_PATH" }
+indent "Save LD_LIBRARY_PATH to ENV_DIR"
+
+existing_ld_library_path = `cat #{ENV_DIR}/LD_LIBRARY_PATH`
+open(File.join(ENV_DIR,'LD_LIBRARY_PATH'), 'w') do |f|
+  value = ORACLE_INSTANT_CLIENT_DIR
+  value += ":#{existing_ld_library_path}"  if existing_ld_library_path
+  f.puts value
+end
 
 indent "Done!"
