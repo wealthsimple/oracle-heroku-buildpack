@@ -13,6 +13,10 @@ BUILD_DIR=ARGV[0]
 CACHE_DIR=ARGV[1]
 ENV_DIR=ARGV[2]
 
+indent "BUILD_DIR=#{BUILD_DIR}"
+indent "CACHE_DIR=#{CACHE_DIR}"
+indent "ENV_DIR=#{ENV_DIR.inspect}"
+
 puts "-----> Found a .oracle.ini"
 
 ORACLE_INSTANT_CLIENT_DIR="#{ARGV[0]}/vendor/oracle_instantclient"
