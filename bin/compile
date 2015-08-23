@@ -16,6 +16,19 @@ RUBY=`which ruby`
 puts "ruby is #{RUBY}"
 puts "ARGV[0] = #{ARGV[0]}"
 
-#wget -nv --directory-prefix=$ORACLE_DIR https://www.dropbox.com/s/bmhz6sdjj3mj1df/instantclient-basic-linux.x64-12.#1.0.2.0.zip
-#wget -nv --directory-prefix=$ORACLE_DIR https://www.dropbox.com/s/s92xiejr1jsdgkh/instantclient-sdk-linux.x64-12.1.#0.2.0.zip
-#wget -nv --directory-prefix=$ORACLE_DIR https://www.dropbox.com/s/wdigmsq2pjud9mc/instantclient-sqlplus-linux.x64-12.1.0.2.0.zip
+
+ORACLE_INSTANT_CLIENT_DIR="#{ARGV[0]}/vendor/oracle_instantclient"
+ORACLE_INSTANT_CLIENT_TGZ="https://www.dropbox.com/s/aovobyzkqfamdxz/instantclient-full-linux.x64-12.1.0.2.0.tar.gz"
+
+indent "Making directoires..."
+`mkdir -p #{ORACLE_INSTANT_CLIENT_DIR}`
+
+indent "Downloading and extracting instantclient"
+result = `curl #{ORACLE_INSTANT_CLIENT_TGZ} -s -o - | tar -xz -C #{ORACLE_INSTANT_CLIENT_DIR} -f - `
+
+unless $?.success?
+  indent "Failure while downloading Oracle instant client archive: #{$?}"
+  exit 1
+end
+
+indent "Done."
