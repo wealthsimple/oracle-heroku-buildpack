@@ -1,7 +1,9 @@
 #!/usr/bin/env ruby
 
+BUILD_DIR=ARGV[0]
+puts "relaese BUILD_DIR = #{BUILD_DIR}"
 EXISTING_LD_LIBRARY_PATH = ENV['LD_LIBRARY_PATH']
-new_ld_library_path = "vendor/oracle_instantclient"
+new_ld_library_path = "#{BUILD_DIR}/vendor/oracle_instantclient"
 
 if !EXISTING_LD_LIBRARY_PATH.nil? && !EXISTING_LD_LIBRARY_PATH.empty?
   new_ld_library_path = EXISTING_LD_LIBRARY_PATH + ":" + new_ld_library_path
