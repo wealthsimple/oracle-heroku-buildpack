@@ -24,11 +24,12 @@ indent "Making directoires..."
 `mkdir -p #{ORACLE_INSTANT_CLIENT_DIR}`
 
 indent "Downloading and extracting instantclient"
-result = `curl #{ORACLE_INSTANT_CLIENT_TGZ} -L -s -o - | tar -xz -C #{ORACLE_INSTANT_CLIENT_DIR} -f - `
+result = `curl #{ORACLE_INSTANT_CLIENT_TGZ} -L -o - | tar -xvz -C #{ORACLE_INSTANT_CLIENT_DIR} -f - `
 
 unless $?.success?
   indent "Failure while downloading Oracle instant client archive: #{$?}"
   exit 1
 end
 
-indent "Done."
+indent "Successfully extracted #{ORACLE_INSTANT_CLIENT_TGZ} to #{ORACLE_INSTANT_CLIENT_DIR}"
+indent "Done!"
