@@ -4,8 +4,30 @@ require 'yaml'
 
 $stdout.sync = true
 
+def indent(msg)
+  puts "       #{msg}"
+end
+
 BUILD_DIR=ARGV[0]
+ENV_DIR=ARGV[2]
 
 puts "-----> Found an .oracle.yml"
 
 ORACLE_CONFIG = YAML.load_file("#{BUILD_DIR}/.oracle.yml")
+
+ORACLE_INSTANT_CLIENT_DIR="vendor/oracle_instantclient"
+ORACLE_INSTANT_CLIENT_URL="https://www.dropbox.com/s/ro5rfqwgtjdo75b/oracle-instantclient-full-12.1-linux.x64.tar.gz"
+ORACLE_INSTANT_CLIENT_FILENAME=ORACLE_INSTANT_CLIENT_URL.split(/\//).last
+
+indent "Making directory #{BUILD_DIR}/#{ORACLE_INSTANT_CLIENT_DIR}"
+`mkdir -p #{BUILD_DIR}/#{ORACLE_INSTANT_CLIENT_DIR}`
+
+indent "Downloading and extracting #{ORACLE_INSTANT_CLIENT_FILENAME}"
+result = `curl #{ORACLE_INSTANT_CLIENT_URL} -L -s -o - | tar -xvz -C #{BUILD_DIR}/#{ORACLE_INSTANT_CLIENT_DIR} -f - `
+
+unless $?.success?
+  indent "Failure while downloading Oracle instant client archive: #{$?}"
+  exit 1
+end
+
+indent "Successfully extracted #{ORACLE_INSTANT_CLIENT_FILENAME}"
