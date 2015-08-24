@@ -47,6 +47,16 @@ if File.exists?(File.join(BUILD_DIR,SQLNET_FILENAME))
   `ln -sf #{File.join('/app',SQLNET_FILENAME)} #{ORACLE_NETWORK_ADMIN_DIR}/sqlnet.ora`
 end
 
+indent "Create profile.d script"
+`mkdir -p #{BUILD_DIR}/.profile.d`
+
+open("#{BUILD_DIR}/.profile.d/oracle.sh", "w") do |f|
+  ORACLE_HOME = "/app/#{ORACLE_INSTANT_CLIENT_DIR}"
+  f.puts "export ORACLE_HOME=#{ORACLE_HOME}"
+  f.puts "export LD_LIBRARY_PATH=#{ORACLE_HOME}:$LD_LIBRARY_PATH"
+  f.puts "export PATH=#{ORACLE_HOME}:$PATH"
+  f.puts "export TNS_ADMIN=#{ORACLE_HOME}/network/admin"
+end
 
 indent "Save build LD_LIBRARY_PATH to ENV_DIR"
 
