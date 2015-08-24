@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require 'yaml'
+
+$stdout.sync = true
+
+BUILD_DIR=ARGV[0]
+
+puts "-----> Found an .oracle.yml"
+
+ORACLE_CONFIG = YAML.load_file("#{BUILD_DIR}/.oracle.yml")
