@@ -57,7 +57,6 @@ open("#{BUILD_DIR}/.profile.d/oracle.sh", "w") do |f|
   f.puts "export LD_LIBRARY_PATH=#{ORACLE_HOME}:$LD_LIBRARY_PATH"
   f.puts "export PATH=#{ORACLE_HOME}:$PATH"
   f.puts "export TNS_ADMIN=#{ORACLE_HOME}/network/admin"
-  f.puts "alias ls='ls --color'"
 end
 
 indent "Save build LD_LIBRARY_PATH to ENV_DIR"
@@ -67,7 +66,7 @@ existing_ld_library_path = `cat #{LD_LIBRARY_PATH_FILE}`  if File.exists?(LD_LIB
 
 open(File.join(ENV_DIR,'LD_LIBRARY_PATH'), 'w') do |f|
   value = "#{BUILD_DIR}/#{ORACLE_INSTANT_CLIENT_DIR}"
-  value += ":#{existing_ld_library_path}"  if existing_ld_library_path && existing_ld_library_path.length > 0
+  value += ":#{existing_ld_library_path}"  if existing_ld_library_path && existing_ld_library_path.trim.length > 0
   f.puts value
 end
 
