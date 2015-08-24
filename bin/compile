@@ -32,6 +32,21 @@ end
 
 indent "Successfully extracted #{ORACLE_INSTANT_CLIENT_FILENAME}"
 
+ORACLE_NETWORK_ADMIN_DIR = "#{BUILD_DIR}/#{ORACLE_INSTANT_CLIENT_DIR}/network/admin"
+`mkdir -p #{ORACLE_NETWORK_ADMIN_DIR}`
+
+TNSNAMES_FILENAME = ORACLE_CONFIG['tnsnames.ora']
+if File.exists?(File.join(BUILD_DIR,TNSNAMES_FILENAME))
+  indent "Symlinking #{TNSNAMES_FILENAME} to #{ORACLE_INSTANT_CLIENT_DIR}/network/admin/tnsnames.ora"
+  `ln -sf #{File.join('/app',TNSNAMES_FILENAME)} #{ORACLE_NETWORK_ADMIN_DIR}/tnsnames.ora`
+end
+
+SQLNET_FILENAME = ORACLE_CONFIG['sqlnet.ora']
+if File.exists?(File.join(BUILD_DIR,SQLNET_FILENAME))
+  indent "Symlinking #{SQLNET_FILENAME} to #{ORACLE_INSTANT_CLIENT_DIR}/network/admin/sqlnet.ora"
+  `ln -sf #{File.join('/app',SQLNET_FILENAME)} #{ORACLE_NETWORK_ADMIN_DIR}/sqlnet.ora`
+end
+
 
 indent "Save build LD_LIBRARY_PATH to ENV_DIR"
 
