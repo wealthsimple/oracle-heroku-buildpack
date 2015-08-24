@@ -31,3 +31,19 @@ unless $?.success?
 end
 
 indent "Successfully extracted #{ORACLE_INSTANT_CLIENT_FILENAME}"
+
+
+indent "Save build LD_LIBRARY_PATH to ENV_DIR"
+
+LD_LIBRARY_PATH_FILE = File.join(ENV_DIR, 'LD_LIBRARY_PATH')
+existing_ld_library_path = `cat #{LD_LIBRARY_PATH_FILE}`  if File.exists?(LD_LIBRARY_PATH_FILE)
+
+open(File.join(ENV_DIR,'LD_LIBRARY_PATH'), 'w') do |f|
+  value = "#{BUILD_DIR}/#{ORACLE_INSTANT_CLIENT_DIR}"
+  unless existing_ld_library_path.nil? || existing_ld_library_path.trim.empty?
+    value += ":#{existing_ld_library_path}"
+  end
+  f.puts value
+end
+
+indent "Done!"
