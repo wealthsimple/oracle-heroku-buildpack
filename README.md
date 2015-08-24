@@ -23,7 +23,7 @@ The benefit to using [heroku-buildpack-multi](https://github.com/ddollar/heroku-
 
 Then inside `.buildpacks`, add the following contents:
 
-    https://github.com/karneyli/oracle-heroku-buildpack
+    https://github.com/wealthsimple/oracle-heroku-buildpack
     https://github.com/heroku/heroku-buildpack-ruby
 
 ### Setup using heroku's native support for multiple buildpacks
