@@ -8,8 +8,16 @@ def indent(msg)
   puts "       #{msg}"
 end
 
-BUILD_DIR=ARGV[0]
-ENV_DIR=ARGV[2]
+BUILD_DIR = ARGV[0]
+ENV_DIR   = ARGV[2]
+
+# Colours for shell colouring
+YELLOW  = '\033[1;33m'
+RESET   ='\033[0m'
+
+def warning message
+  system "echo '#{YELLOW}WARNING: #{message}#{RESET}'"
+end
 
 puts "-----> Found an .oracle.yml"
 
@@ -47,6 +55,8 @@ if ORACLE_CONFIG
     indent "Symlinking #{SQLNET_FILENAME} to #{ORACLE_INSTANT_CLIENT_DIR}/network/admin/sqlnet.ora"
     `ln -sf #{File.join('/app',SQLNET_FILENAME)} #{ORACLE_NETWORK_ADMIN_DIR}/sqlnet.ora`
   end
+else
+  warning '.oracle.yml is empty or invalid'
 end
 
 indent "Create profile.d script"
