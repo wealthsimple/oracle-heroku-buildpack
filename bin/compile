@@ -62,8 +62,9 @@ end
 indent "Create profile.d script"
 `mkdir -p #{BUILD_DIR}/.profile.d`
 
+ORACLE_HOME = "/app/#{ORACLE_INSTANT_CLIENT_DIR}"
+
 open("#{BUILD_DIR}/.profile.d/oracle.sh", "w") do |f|
-  ORACLE_HOME = "/app/#{ORACLE_INSTANT_CLIENT_DIR}"
   f.puts "export ORACLE_HOME=#{ORACLE_HOME}"
   f.puts "export LD_LIBRARY_PATH=#{ORACLE_HOME}:$LD_LIBRARY_PATH"
   f.puts "export PATH=#{ORACLE_HOME}:$PATH"
