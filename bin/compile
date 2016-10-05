@@ -73,7 +73,7 @@ open("#{BUILD_DIR}/.profile.d/oracle.sh", "w") do |f|
   f.puts "export TNS_ADMIN=#{ORACLE_HOME}/network/admin"
 end
 
-`#{BUILD_DIR}/.profile.d/oracle.sh`
+`./#{BUILD_DIR}/.profile.d/oracle.sh`
 indent "Save build LD_LIBRARY_PATH to ENV_DIR"
 
 LD_LIBRARY_PATH_FILE = File.join(ENV_DIR, 'LD_LIBRARY_PATH')
