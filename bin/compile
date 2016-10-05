@@ -83,4 +83,12 @@ open(File.join(ENV_DIR,'LD_LIBRARY_PATH'), 'w') do |f|
   f.puts value
 end
 
+open(File.join(ENV_DIR, 'OCI_LIB_DIR'), 'w') do |f|
+  f.puts "#{ORACLE_HOME}"
+end
+
+open(File.join(ENV_DIR, 'OCI_INC_DIR'), 'w') do |f|
+  f.puts "#{ORACLE_HOME}/sdk/include"
+end
+
 indent "Done!"
