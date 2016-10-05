@@ -74,7 +74,7 @@ open("#{BUILD_DIR}/.profile.d/oracle.sh", "w") do |f|
 end
 
 `chmod +x /app/.profile.d/oracle.sh`
-`/app/.profile.d/oracle.sh`
+system "/app/.profile.d/oracle.sh"
 indent "Save build LD_LIBRARY_PATH to ENV_DIR"
 
 LD_LIBRARY_PATH_FILE = File.join(ENV_DIR, 'LD_LIBRARY_PATH')
