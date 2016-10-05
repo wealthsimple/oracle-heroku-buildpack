@@ -65,15 +65,16 @@ indent "Create profile.d script"
 ORACLE_HOME = "/app/#{ORACLE_INSTANT_CLIENT_DIR}"
 
 open("#{BUILD_DIR}/.profile.d/oracle.sh", "w") do |f|
-  f.puts "#{ORACLE_HOME}"
+  f.puts "export #{ORACLE_HOME}"
   f.puts "export ORACLE_HOME=#{ORACLE_HOME}"
-  f.puts "#{ORACLE_HOME}/sdk/include"
+  f.puts "export #{ORACLE_HOME}/sdk/include"
   f.puts "export LD_LIBRARY_PATH=#{ORACLE_HOME}:$LD_LIBRARY_PATH"
   f.puts "export PATH=#{ORACLE_HOME}:$PATH"
   f.puts "export TNS_ADMIN=#{ORACLE_HOME}/network/admin"
 end
 
-`./#{BUILD_DIR}/.profile.d/oracle.sh`
+`chmod +x /app/.profile.d/oracle.sh`
+`/app/.profile.d/oracle.sh`
 indent "Save build LD_LIBRARY_PATH to ENV_DIR"
 
 LD_LIBRARY_PATH_FILE = File.join(ENV_DIR, 'LD_LIBRARY_PATH')
