@@ -8,8 +8,16 @@ def indent(msg)
   puts "       #{msg}"
 end
 
-BUILD_DIR=ARGV[0]
-ENV_DIR=ARGV[2]
+BUILD_DIR = ARGV[0]
+ENV_DIR   = ARGV[2]
+
+# Colours for shell colouring
+YELLOW  = '\033[1;33m'
+RESET   ='\033[0m'
+
+def warning message
+  system "echo '#{YELLOW}WARNING: #{message}#{RESET}'"
+end
 
 puts "-----> Found an .oracle.yml"
 
@@ -35,29 +43,38 @@ indent "Successfully extracted #{ORACLE_INSTANT_CLIENT_FILENAME}"
 ORACLE_NETWORK_ADMIN_DIR = "#{BUILD_DIR}/#{ORACLE_INSTANT_CLIENT_DIR}/network/admin"
 `mkdir -p #{ORACLE_NETWORK_ADMIN_DIR}`
 
-TNSNAMES_FILENAME = ORACLE_CONFIG['tnsnames.ora']
-if File.exists?(File.join(BUILD_DIR,TNSNAMES_FILENAME))
-  indent "Symlinking #{TNSNAMES_FILENAME} to #{ORACLE_INSTANT_CLIENT_DIR}/network/admin/tnsnames.ora"
-  `ln -sf #{File.join('/app',TNSNAMES_FILENAME)} #{ORACLE_NETWORK_ADMIN_DIR}/tnsnames.ora`
-end
+if ORACLE_CONFIG
+  TNSNAMES_FILENAME = ORACLE_CONFIG['tnsnames.ora']
+  if File.exists?(File.join(BUILD_DIR,TNSNAMES_FILENAME))
+    indent "Symlinking #{TNSNAMES_FILENAME} to #{ORACLE_INSTANT_CLIENT_DIR}/network/admin/tnsnames.ora"
+    `ln -sf #{File.join('/app',TNSNAMES_FILENAME)} #{ORACLE_NETWORK_ADMIN_DIR}/tnsnames.ora`
+  end
 
-SQLNET_FILENAME = ORACLE_CONFIG['sqlnet.ora']
-if File.exists?(File.join(BUILD_DIR,SQLNET_FILENAME))
-  indent "Symlinking #{SQLNET_FILENAME} to #{ORACLE_INSTANT_CLIENT_DIR}/network/admin/sqlnet.ora"
-  `ln -sf #{File.join('/app',SQLNET_FILENAME)} #{ORACLE_NETWORK_ADMIN_DIR}/sqlnet.ora`
+  SQLNET_FILENAME = ORACLE_CONFIG['sqlnet.ora']
+  if File.exists?(File.join(BUILD_DIR,SQLNET_FILENAME))
+    indent "Symlinking #{SQLNET_FILENAME} to #{ORACLE_INSTANT_CLIENT_DIR}/network/admin/sqlnet.ora"
+    `ln -sf #{File.join('/app',SQLNET_FILENAME)} #{ORACLE_NETWORK_ADMIN_DIR}/sqlnet.ora`
+  end
+else
+  warning '.oracle.yml is empty or invalid'
 end
 
 indent "Create profile.d script"
 `mkdir -p #{BUILD_DIR}/.profile.d`
 
+ORACLE_HOME = "/app/#{ORACLE_INSTANT_CLIENT_DIR}"
+
 open("#{BUILD_DIR}/.profile.d/oracle.sh", "w") do |f|
-  ORACLE_HOME = "/app/#{ORACLE_INSTANT_CLIENT_DIR}"
+  f.puts "export OCI_LIB_DIR=#{ORACLE_HOME}"
   f.puts "export ORACLE_HOME=#{ORACLE_HOME}"
+  f.puts "export OCI_INC_DIR=#{ORACLE_HOME}/sdk/include"
   f.puts "export LD_LIBRARY_PATH=#{ORACLE_HOME}:$LD_LIBRARY_PATH"
   f.puts "export PATH=#{ORACLE_HOME}:$PATH"
   f.puts "export TNS_ADMIN=#{ORACLE_HOME}/network/admin"
 end
 
+`chmod +x /app/.profile.d/oracle.sh`
+system "/app/.profile.d/oracle.sh"
 indent "Save build LD_LIBRARY_PATH to ENV_DIR"
 
 LD_LIBRARY_PATH_FILE = File.join(ENV_DIR, 'LD_LIBRARY_PATH')
