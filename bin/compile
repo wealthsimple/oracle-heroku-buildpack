@@ -55,6 +55,12 @@ if ORACLE_CONFIG
     indent "Symlinking #{SQLNET_FILENAME} to #{ORACLE_INSTANT_CLIENT_DIR}/network/admin/sqlnet.ora"
     `ln -sf #{File.join('/app',SQLNET_FILENAME)} #{ORACLE_NETWORK_ADMIN_DIR}/sqlnet.ora`
   end
+
+  LDAP_FILENAME = ORACLE_CONFIG['ldap.ora']
+  if File.exists?(File.join(BUILD_DIR,LDAP_FILENAME))
+    indent "Symlinking #{LDAP_FILENAME} to #{ORACLE_INSTANT_CLIENT_DIR}/network/admin/ldap.ora"
+    `ln -sf #{File.join('/app',LDAP_FILENAME)} #{ORACLE_NETWORK_ADMIN_DIR}/ldap.ora`
+  end
 else
   warning '.oracle.yml is empty or invalid'
 end
