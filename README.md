@@ -1,6 +1,6 @@
-# Heroku Buildpack for Ruby Oracle
+# Heroku Buildpack for Oracle
 
-Heroku buildpack for setting up Oracle Instant Client and the `LD_LIBRARY_PATH` so that Bundler can build [ruby-oci8](https://github.com/kubo/ruby-oci8)
+Heroku buildpack for setting up Oracle Instant Client and the `LD_LIBRARY_PATH`
 
 # Usage
 
@@ -12,7 +12,7 @@ In order for this buildpack to execute, it will look for a `.oracle.yml` file in
 
 ## Add Buildpack
 
-You'll need to use multiple buildpacks. This buildpack will need to be invoked first, followed by [heroku-buildpack-ruby](https://github.com/heroku/heroku-buildpack-ruby).  Heroku now supports configuring multiple buildpacks natively, or you can use the [heroku-buildpack-multi](https://github.com/ddollar/heroku-buildpack-multi) buildpack.
+You'll need to use multiple buildpacks. This buildpack will need to be invoked first, followed by your language buildpack.  Heroku now supports configuring multiple buildpacks natively, or you can use the [heroku-buildpack-multi](https://github.com/ddollar/heroku-buildpack-multi) buildpack.
 
 ### Setup using heroku-buildpack-multi
 
@@ -23,7 +23,7 @@ The benefit to using [heroku-buildpack-multi](https://github.com/ddollar/heroku-
 
 Then inside `.buildpacks`, add the following contents:
 
-    https://github.com/wealthsimple/oracle-heroku-buildpack
+    https://github.com/luizalabs/heroku-buildpack-oracle
     https://github.com/heroku/heroku-buildpack-ruby
 
 ### Setup using heroku's native support for multiple buildpacks
@@ -48,4 +48,4 @@ The `tnsnames.ora` and `sqlnet.ora` files are often located in `$ORACLE_HOME/net
 
 The files will be symlinked into `vendor/oracle-instantclient/network/admin`
 
-You do not need both `tnsnames.ora` and `sqlnet.ora`, they are both optional, the buildpack and [ruby-oci8](https://github.com/kubo/ruby-oci8) will work fine without them.
+You do not need both `tnsnames.ora` and `sqlnet.ora`, they are both optional, the buildpack will work fine without them.
