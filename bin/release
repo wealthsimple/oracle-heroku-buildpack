@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+#EXISTING_LD_LIBRARY_PATH = ENV['LD_LIBRARY_PATH']
+#new_ld_library_path = "vendor/oracle_instantclient"
+
+#if ! EXISTING_LD_LIBRARY_PATH.nil? && ! EXISTING_LD_LIBRARY_PATH.empty?
+#  new_ld_library_path = EXISTING_LD_LIBRARY_PATH + ":" + new_ld_library_path
+#end
+
+BUILD_DIR=${1}
+
+cat <<EOF
+---
+config_vars:
+LD_LIBRARY_PATH: ${BUILD_DIR}/vendor/instantclient_12_1
+NLS_LANG: AMERICAN_AMERICA.UTF8
+EOF

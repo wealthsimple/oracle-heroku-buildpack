@@ -55,6 +55,12 @@ if ORACLE_CONFIG
     indent "Symlinking #{SQLNET_FILENAME} to #{ORACLE_INSTANT_CLIENT_DIR}/network/admin/sqlnet.ora"
     `ln -sf #{File.join('/app',SQLNET_FILENAME)} #{ORACLE_NETWORK_ADMIN_DIR}/sqlnet.ora`
   end
+
+  LDAP_FILENAME = ORACLE_CONFIG['ldap.ora']
+  if File.exists?(File.join(BUILD_DIR,LDAP_FILENAME))
+    indent "Symlinking #{LDAP_FILENAME} to #{ORACLE_INSTANT_CLIENT_DIR}/network/admin/ldap.ora"
+    `ln -sf #{File.join('/app',LDAP_FILENAME)} #{ORACLE_NETWORK_ADMIN_DIR}/ldap.ora`
+  end
 else
   warning '.oracle.yml is empty or invalid'
 end
@@ -73,8 +79,8 @@ open("#{BUILD_DIR}/.profile.d/oracle.sh", "w") do |f|
   f.puts "export TNS_ADMIN=#{ORACLE_HOME}/network/admin"
 end
 
-`chmod +x /app/.profile.d/oracle.sh`
-system "/app/.profile.d/oracle.sh"
+`chmod +x #{BUILD_DIR}/.profile.d/oracle.sh`
+system "#{BUILD_DIR}/.profile.d/oracle.sh"
 indent "Save build LD_LIBRARY_PATH to ENV_DIR"
 
 LD_LIBRARY_PATH_FILE = File.join(ENV_DIR, 'LD_LIBRARY_PATH')
@@ -82,9 +88,9 @@ existing_ld_library_path = `cat #{LD_LIBRARY_PATH_FILE}`  if File.exists?(LD_LIB
 
 open(File.join(ENV_DIR,'LD_LIBRARY_PATH'), 'w') do |f|
   value = "#{BUILD_DIR}/#{ORACLE_INSTANT_CLIENT_DIR}"
-  unless existing_ld_library_path.nil? || existing_ld_library_path.trim.empty?
-    value += ":#{existing_ld_library_path}"
-  end
+ # unless existing_ld_library_path.nil? || existing_ld_library_path.trim.empty?
+ #   value += ":#{existing_ld_library_path}"
+ # end
   f.puts value
 end
 
